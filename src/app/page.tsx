@@ -76,11 +76,12 @@ export default function Home() {
                   Now available for Android
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-foreground mb-5 sm:mb-6">
-                  <span className="block">Beyond the beat.</span>
-                  <span className="block text-primary/80">Into the soul.</span>
-                  <span className="block text-primary">Your ultimate soundtrack.</span>
+                <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tight text-foreground mb-3 sm:mb-4">
+                  Melovia
                 </h1>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-primary mb-5 sm:mb-6">
+                  Where Every Heart Finds Its Melody.
+                </p>
 
                 <p className="text-sm sm:text-lg leading-relaxed text-muted-foreground mb-8 sm:mb-10 max-w-xl mx-auto lg:mx-0">
                   A beautifully crafted music app for Android. Enjoy crystal-clear audio, custom playlists, and a clean, intuitive interface.
