@@ -24,7 +24,7 @@ const Github = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [1, 2, 3, 4];
+  const slides = [1, 2, 3];
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
@@ -92,7 +92,7 @@ export default function Home() {
 
                 </div>
                 
-                <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground">
+                <div className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-sm font-bold text-foreground/90 sm:font-medium sm:text-sm sm:text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <Music className="h-4 w-4 text-primary" />
                     <span>Millions of Songs</span>
@@ -177,48 +177,51 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group relative flex flex-col sm:flex-row items-start sm:items-center gap-6 py-8 px-6 rounded-2xl hover:bg-white/5 transition-all duration-500 overflow-hidden cursor-default border border-transparent hover:border-border/30"
+                  className="group relative flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 py-6 sm:py-8 px-5 sm:px-6 rounded-2xl hover:bg-white/5 transition-all duration-500 overflow-hidden cursor-default border border-transparent hover:border-border/30"
                 >
                   {/* Hover Gradient Background */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10"></div>
                   
-                  {/* Track Number / Equalizer */}
-                  <div className="flex items-center justify-center w-12 h-12 shrink-0">
-                    <span className="text-3xl font-black text-muted-foreground/30 group-hover:hidden transition-all">0{idx + 1}</span>
-                    
-                    {idx === 0 && (
-                      <div className="hidden group-hover:flex items-end gap-1 h-6">
-                         <motion.div animate={{ height: ["40%", "100%", "40%"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1.5 bg-primary rounded-full"></motion.div>
-                         <motion.div animate={{ height: ["80%", "30%", "80%"] }} transition={{ repeat: Infinity, duration: 0.8, delay: 0.2 }} className="w-1.5 bg-primary rounded-full"></motion.div>
-                         <motion.div animate={{ height: ["50%", "90%", "50%"] }} transition={{ repeat: Infinity, duration: 0.8, delay: 0.4 }} className="w-1.5 bg-primary rounded-full"></motion.div>
-                      </div>
-                    )}
-                    
-                    {idx === 1 && (
-                      <div className="hidden group-hover:flex items-center justify-center relative w-8 h-8">
-                         <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }} className="absolute -left-1 w-5 h-5 rounded-full border-[3px] border-primary"></motion.div>
-                         <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 2, delay: 1, ease: "easeInOut" }} className="absolute -right-1 w-5 h-5 rounded-full border-[3px] border-primary"></motion.div>
-                      </div>
-                    )}
+                  {/* Top Bar for Mobile (Number + Icon) */}
+                  <div className="flex flex-row items-center gap-4 sm:gap-6 shrink-0 w-full sm:w-auto">
+                    {/* Track Number / Equalizer */}
+                    <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 shrink-0">
+                      <span className="text-2xl sm:text-3xl font-black text-muted-foreground/30 group-hover:hidden transition-all">0{idx + 1}</span>
+                      
+                      {idx === 0 && (
+                        <div className="hidden group-hover:flex items-end gap-1 h-5 sm:h-6">
+                           <motion.div animate={{ height: ["40%", "100%", "40%"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1.5 bg-primary rounded-full"></motion.div>
+                           <motion.div animate={{ height: ["80%", "30%", "80%"] }} transition={{ repeat: Infinity, duration: 0.8, delay: 0.2 }} className="w-1.5 bg-primary rounded-full"></motion.div>
+                           <motion.div animate={{ height: ["50%", "90%", "50%"] }} transition={{ repeat: Infinity, duration: 0.8, delay: 0.4 }} className="w-1.5 bg-primary rounded-full"></motion.div>
+                        </div>
+                      )}
+                      
+                      {idx === 1 && (
+                        <div className="hidden group-hover:flex items-center justify-center relative w-6 h-6 sm:w-8 sm:h-8">
+                           <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }} className="absolute -left-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-[3px] border-primary"></motion.div>
+                           <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 2, delay: 1, ease: "easeInOut" }} className="absolute -right-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-[3px] border-primary"></motion.div>
+                        </div>
+                      )}
 
-                    {idx === 2 && (
-                      <div className="hidden group-hover:flex items-center justify-center gap-1 h-6">
-                         <motion.div animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }} className="w-2 h-2 rounded-full bg-primary"></motion.div>
-                         <motion.div animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5, delay: 0.5, ease: "easeInOut" }} className="w-2 h-2 rounded-full bg-primary"></motion.div>
-                         <motion.div animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5, delay: 1.0, ease: "easeInOut" }} className="w-2 h-2 rounded-full bg-primary"></motion.div>
-                      </div>
-                    )}
-                  </div>
+                      {idx === 2 && (
+                        <div className="hidden group-hover:flex items-center justify-center gap-1 h-5 sm:h-6">
+                           <motion.div animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></motion.div>
+                           <motion.div animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5, delay: 0.5, ease: "easeInOut" }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></motion.div>
+                           <motion.div animate={{ scale: [1, 1.5, 1], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.5, delay: 1.0, ease: "easeInOut" }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></motion.div>
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Icon */}
-                  <div className="h-14 w-14 rounded-full bg-primary/5 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 text-primary shadow-[0_0_15px_rgba(255,0,128,0.05)] group-hover:shadow-[0_0_25px_rgba(255,0,128,0.4)]">
-                    <feature.icon className="h-6 w-6" />
+                    {/* Icon */}
+                    <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-primary/5 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 text-primary shadow-[0_0_15px_rgba(255,0,128,0.05)] group-hover:shadow-[0_0_25px_rgba(255,0,128,0.4)]">
+                      <feature.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                    </div>
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
-                    <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{feature.description}</p>
+                  <div className="flex-1 mt-1 sm:mt-0">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
+                    <p className="text-muted-foreground text-sm sm:text-lg leading-relaxed">{feature.description}</p>
                   </div>
                   
                   {/* "Play" Action */}
@@ -246,10 +249,10 @@ export default function Home() {
               <AnimatePresence mode="popLayout">
                 <motion.div 
                   key={currentSlide}
-                  initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  initial={{ opacity: 0, x: 100, scale: 0.9, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, x: -100, scale: 0.9, filter: "blur(8px)" }}
+                  transition={{ type: "spring", stiffness: 200, damping: 25, mass: 0.8 }}
                   className="absolute snap-center shrink-0 rounded-[2.5rem] border-[10px] border-black bg-black shadow-xl overflow-hidden aspect-[9/19.5] w-[260px] md:w-[300px] ring-1 ring-white/10"
                 >
                   {/* Dynamic Island Notch */}
@@ -311,10 +314,6 @@ export default function Home() {
             &copy; {new Date().getFullYear()} Melovia. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <a href="https://github.com/selvaofficial1026-design/Melovia" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-              <span className="sr-only">GitHub</span>
-              <Github className="h-5 w-5" />
-            </a>
           </div>
         </div>
       </footer>
