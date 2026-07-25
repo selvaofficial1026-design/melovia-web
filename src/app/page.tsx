@@ -12,7 +12,7 @@ export default function Home() {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
-  const APK_URL = "https://github.com/selvaofficial1026-design/Melovia/releases/latest/download/app-foss-release.apk";
+  const APK_URL = "https://github.com/selvaofficial1026-design/Melovia-App/releases/download/v1.0.3/Melovia.apk";
 
   return (
     <div className="flex flex-col min-h-screen bg-background selection:bg-primary/10 selection:text-primary">

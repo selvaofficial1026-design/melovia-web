@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "Music Streaming Android",
     "Open Source Music App",
   ],
-  authors: [{ name: "Melovia", url: "https://github.com/selvaofficial1026-design/Melovia" }],
+  authors: [{ name: "Melovia", url: "https://github.com/selvaofficial1026-design/Melovia-App" }],
   creator: "Melovia",
   metadataBase: new URL("https://melovia.vercel.app"),
   openGraph: {
