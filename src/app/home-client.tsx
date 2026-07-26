@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Download,
@@ -14,6 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Tag,
+  CheckCircle,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -24,10 +26,27 @@ interface Props {
 
 export default function HomeClient({ version, apkUrl }: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [downloading, setDownloading] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const slides = [1, 2, 3];
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const handleDownload = useCallback(() => {
+    setDownloading(true);
+    setShowToast(true);
+    // Simulate brief loading then show success
+    setTimeout(() => {
+      setDownloading(false);
+      setDownloaded(true);
+    }, 1500);
+    setTimeout(() => {
+      setDownloaded(false);
+      setShowToast(false);
+    }, 5000);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-background selection:bg-primary/10 selection:text-primary">
@@ -52,16 +71,31 @@ export default function HomeClient({ version, apkUrl }: Props) {
 
           {/* Desktop button */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Version badge */}
             <span className="flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
               <Tag className="h-3 w-3" />
               {version}
             </span>
-            <Button className="rounded-full px-6 font-medium shadow-sm transition-transform hover:scale-105" asChild>
-              <a href={apkUrl} target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-4 w-4" />
-                Download App
-              </a>
+            <Button
+              className="rounded-full px-6 font-medium shadow-sm transition-all hover:scale-105 min-w-[160px]"
+              asChild={!downloading && !downloaded}
+              onClick={handleDownload}
+            >
+              {downloading ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Starting...
+                </span>
+              ) : downloaded ? (
+                <span className="flex items-center gap-2 text-green-600">
+                  <CheckCircle className="h-4 w-4" />
+                  Download Started!
+                </span>
+              ) : (
+                <a href={apkUrl} download="Melovia.apk">
+                  <Download className="mr-2 h-4 w-4" />
+                  Download App
+                </a>
+              )}
             </Button>
           </div>
 
@@ -73,12 +107,18 @@ export default function HomeClient({ version, apkUrl }: Props) {
             </span>
             <a
               href={apkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              download="Melovia.apk"
+              onClick={handleDownload}
               className="flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-4 py-2 text-sm font-semibold shadow-md active:scale-95 transition-transform"
             >
-              <Download className="h-4 w-4" />
-              Download
+              {downloading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : downloaded ? (
+                <CheckCircle className="h-4 w-4" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+              {downloaded ? "Started!" : "Download"}
             </a>
           </div>
         </div>
@@ -127,7 +167,7 @@ export default function HomeClient({ version, apkUrl }: Props) {
                     className="w-full max-w-xs sm:w-auto rounded-full h-13 sm:h-14 px-8 text-base shadow-lg transition-all hover:shadow-primary/25 hover:scale-[1.02]"
                     asChild
                   >
-                    <a href={apkUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={apkUrl} download="Melovia.apk" onClick={handleDownload}>
                       <Download className="mr-2 h-5 w-5" />
                       Download Latest Release
                     </a>
@@ -353,8 +393,7 @@ export default function HomeClient({ version, apkUrl }: Props) {
           </p>
           <a
             href={apkUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            download="Melovia.apk"
             className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-primary hover:underline transition-colors"
           >
             <Download className="h-4 w-4" />
@@ -362,6 +401,39 @@ export default function HomeClient({ version, apkUrl }: Props) {
           </a>
         </div>
       </footer>
+
+      {/* Download Toast Notification */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 80 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-sm"
+          >
+            <div className="flex items-center gap-4 bg-foreground text-background rounded-2xl px-5 py-4 shadow-2xl">
+              <div className="shrink-0">
+                {downloading ? (
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                ) : (
+                  <CheckCircle className="h-6 w-6 text-green-400" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-sm">
+                  {downloading ? "Starting download..." : "Download Started! 🎉"}
+                </p>
+                <p className="text-xs opacity-70 mt-0.5">
+                  {downloading
+                    ? "Please wait a moment"
+                    : "APK file is downloading. Check your notifications."}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
